@@ -119,7 +119,7 @@ class BT:
 
     ## For the first corner
         if i == 0:
-            while (len(r_corner)>0):
+            while (len(r_corner)>2):
                 j = r_corner[0]
                 child = Node()
                 child.parent     = parent
@@ -139,12 +139,13 @@ class BT:
             while(len(r_corner)>0):
                 j = r_corner[0]
 
-
                 pos_m = 0
                 found = 0
     #Ensuring that there is atleast one inner pieces that can be placed after this corner
                 for m in r_inner:
-                    if m[1] == j[1]:
+                    if  m[1] == j[0] or \
+                        m[1] == j[1] or \
+                        m[1] == j[2] :
                         #found = 1
                         for n in r_sides:
                             if m[0] == n [0] or \
@@ -216,7 +217,6 @@ class BT:
             ## vice versa
             if (current_layer%2==0 and i%2==0) or \
                 (current_layer%2!=0 and i%2!=0):
-
                 while (len(r_sides))>0:
                     j =r_sides[0]
 
@@ -473,11 +473,11 @@ class BT:
             p_puzzle = [t_puzzle[j] for j in range(len(t_puzzle)-1,-1,-1)]
             print p_puzzle
             if p_puzzle[i-1][1] != '0':
-                p_puzzle[i-1][1] = t_rot.rotate(p_puzzle[i-1][:],2)
+                p_puzzle[i-1] = t_rot.rotate(p_puzzle[i-1][:],2)
 
             elif p_puzzle[i-1][2] != '0':
                 p_puzzle[i-1] = t_rot.rotate(p_puzzle[i-1][:],1)
-
+            print p_puzzle
             pd.draw_puzzle(p_puzzle,layers)
             exit()
     ## calculating the scores
@@ -503,14 +503,11 @@ class BT:
 
                     if parent.score == -99999:
                         parent = parent.parent
-
+                        i -= 1
 
                     else:
                         parent = parent.children[0]
                         i+=1
-                        #if i == 37:
-                        #    exit()
-
                 else:
                     if parent.score == -99999:
                         parent = parent.parent
@@ -522,6 +519,7 @@ class BT:
                             for ch in parent.children:
                                 if ch.score!= -99999:
                                     parent = ch
+                                    i+=1
                                     f = 1
                                     break
 
@@ -534,8 +532,9 @@ class BT:
 
                 if parent == 'NaN':
                     exit()
+
             except:
-                print i,parent
+                print i,parent.value
                 exit()
 
     ## if there is children find the best child
@@ -560,4 +559,4 @@ class Node:
 
     def __del__(self):
         pass
-obj = BT("Untitled 4.csv")
+obj = BT("Untitled 6.csv")

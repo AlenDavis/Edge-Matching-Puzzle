@@ -33,6 +33,8 @@ def draw_puzzle(puzzle,layers):
     poly_points4 = [Point(x2, y2), Point(x1+50, 5), Point(x3, y3)]
 
     puzzle_color = []
+    print color
+    print puzzle
     for i in puzzle:
         puzzle_color.append([color[j] for j in i])
 

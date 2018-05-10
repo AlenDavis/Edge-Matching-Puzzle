@@ -144,7 +144,9 @@ class MCTS:
                 found = 0
     #Ensuring that there is atleast one inner pieces that can be placed after this corner
                 for m in r_inner:
-                    if m[1] == j[1]:
+                    if  m[1] == j[0] or \
+                        m[1] == j[1] or \
+                        m[1] == j[2] :
                         #found = 1
                         for n in r_sides:
                             if m[0] == n [0] or \
@@ -593,4 +595,4 @@ class Node:
         self.n        = 1
         self.value    = []
 
-obj = MCTS("Untitled 6.csv")
+obj = MCTS("Untitled 4.csv")
