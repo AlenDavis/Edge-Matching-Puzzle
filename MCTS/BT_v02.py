@@ -110,7 +110,7 @@ class BT:
     ## to be placed and a selected piece is compared with the remaining pieces at that node
     ## to see if there is a atleast a piece that can be placed after this node. This is
     ## done to limit the score of pieces at each node inorder to reduce wasteful processing
-    def populate_children(self,parent,i,root):
+    def populate_children(self,parent,i,root,count):
     ## Each node is compared with the respective postion in the layer
         layers = self.layers
         current_layer = int(math.sqrt(i))
@@ -467,7 +467,7 @@ class BT:
         #        print "kutikal",ch.value
         if len(parent.children)==0:
             parent.score = -99999
-
+            count+=1
         if i == layers * layers:
             #o = random.randint(0,len(parent.children)-1)
             t_puzzle = []
@@ -481,6 +481,8 @@ class BT:
     ## Generating the puzzle at current postion
             p_puzzle = [t_puzzle[j] for j in range(len(t_puzzle)-1,-1,-1)]
             print p_puzzle
+            print count
+            count = 0
             if p_puzzle[i-1][1] != '0':
                 p_puzzle[i-1] = t_rot.rotate(p_puzzle[i-1][:],2)
 
@@ -492,7 +494,7 @@ class BT:
     ## calculating the scores
 
     ## when there is no children return with high penalty and delete the parent
-        return parent
+        return parent,count
 
     ## This fucntion generates the puzzle and calulates the fitness
 
@@ -505,10 +507,11 @@ class BT:
 
         parent = root
         i = 0
+        count = 0
         while (flag):
             #try:
             if parent.score != -99999 and len(parent.children) == 0:
-                parent = self.populate_children(parent,i,root)
+                parent,count = self.populate_children(parent,i,root,count)
 
                 if parent.score == -99999:
                     temp = parent.parent
@@ -598,4 +601,4 @@ class Node:
 
     def __del__(self):
         pass
-obj = BT("Untitled 7.csv")
+obj = BT("Untitled 4.csv")
